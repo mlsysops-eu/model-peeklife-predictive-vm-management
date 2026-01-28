@@ -58,8 +58,8 @@ It is recommended to use a virtual environment to keep dependencies isolated.
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/mlsysops-eu/model-peeklife-predictive-vm-management
-cd model-peeklife-predictive-vm-management
+git clone https://github.com/mlsysops-eu/model-peaklife-predictive-vm-management
+cd model-peaklife-predictive-vm-management
 ```
 
 ### 2. Create and Activate Virtual Environment
