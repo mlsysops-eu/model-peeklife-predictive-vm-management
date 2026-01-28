@@ -1,0 +1,60 @@
+{
+  "model_name": "PeakLife",
+  "version": "1.0",
+  "task": "utilization_forecast_and_remaining_lifetime",
+  "input_length": 288,
+  "forecast_length": 1,
+  "input_features": ["AvgCPU", "MaxCPU"],
+  "aux_features": ["running_time_norm", "max_cpu_so_far_norm"],
+  "normalization": {
+    "cpu_divisor": 100.0,
+    "max_lifetime_seconds": 1729500.0
+  },
+  "inputs": {
+    "inputs": {
+      "dtype": "float32",
+      "shape": ["B", 288, 2],
+      "range": [0.0, 1.0],
+      "order": ["AvgCPU", "MaxCPU"]
+    },
+    "aux_features": {
+      "dtype": "float32",
+      "shape": ["B", 2],
+      "range": [0.0, 1.0],
+      "order": ["running_time_norm", "max_cpu_so_far_norm"]
+    }
+  },
+  "outputs": {
+    "pred_util": {
+      "dtype": "float32",
+      "shape": ["B", 1, 2],
+      "range": [0.0, 1.0],
+      "order": ["AvgCPU", "MaxCPU"],
+      "meaning": "next-step utilization forecast"
+    },
+    "pred_life": {
+      "dtype": "float32",
+      "shape": ["B", 1],
+      "range": [0.0, 1.0],
+      "meaning": "remaining_lifetime_normalized = max(0, lifetime_seconds - time_relative_seconds) / max_lifetime_seconds"
+    }
+  },
+  "architecture": {
+    "encoder": "AttentionGRUEncoder (self-attention over projected inputs + GRU over raw inputs)",
+    "attention_dim": 64,
+    "hidden_dim": 32,
+    "num_heads": 4,
+    "num_layers": 2,
+    "dropout": 0.1,
+    "pooling": "concat(mean_pool, max_pool, last_step)",
+    "forecast_head": "MLP(ctx + last_raw) -> sigmoid -> reshape(B,H,2)",
+    "lifetime_head": "MLP(ctx + aux) -> sigmoid"
+  },
+  "constraints": [
+    "Sequence length must be 288 (input_length).",
+    "inputs must be normalized CPU values in [0,1] (divided by 100).",
+    "aux_features[0] must be normalized by the max lifetime.",
+    "aux_features[1] must be normalized by 100.",
+    "Outputs are bounded to [0,1] by sigmoid."
+  ]
+}
