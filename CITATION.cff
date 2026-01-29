@@ -42,4 +42,5 @@ authors:
 repository-code: >-
   https://github.com/mlsysops-eu/model-peaklife-predictive-vm-management
 version: 1.0.0
-date-released: '2026-01-28'
+date-released: '2026-01-29'
+doi: 10.5281/zenodo.18422585
