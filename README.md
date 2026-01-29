@@ -270,7 +270,7 @@ The file model/model_config.json serves as the Model Card and includes:
 
 If you use this repository or the provided ONNX model in your research, please cite it.
 
-Citation metadata is available via the **Zenodo DOI** above and in the [Citation.cff](Citation.cff) file.
+Citation metadata is available via the **Zenodo DOI: 10.5281/zenodo.18422585** and in the [Citation.cff](Citation.cff) file.
 
 ## Acknowledgments & Funding
 
